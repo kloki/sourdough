@@ -87,7 +87,7 @@ fn main() {
     let brine_water = 5;
 
     println!(
-        "{} Sourdough {} {}:{}:{}",
+        "{} Sourdough {} - {}:{}:{}",
         BREAD, flower, hydration, starter, salt
     );
     println!("Dough:");
