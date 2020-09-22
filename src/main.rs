@@ -13,24 +13,71 @@ fn main() {
                 .default_value("70"),
         )
         .arg(
+            Arg::new("starter")
+                .short('s')
+                .long("starter")
+                .value_name("starter")
+                .about("Starter percentage.")
+                .default_value("20"),
+        )
+        .arg(
+            Arg::new("salt")
+                .short('S')
+                .long("salt")
+                .value_name("salt")
+                .about("Salt percentage.")
+                .default_value("2"),
+        )
+        .arg(
             Arg::new("flower")
                 .about("How much flower to use")
                 .required(true)
                 .index(1)
                 .default_value("1000"),
         )
+        .about("Create ingredient list based on bakers percent")
         .get_matches();
 
     let flower = match args.value_of("flower").unwrap().parse::<i32>() {
+        Err(_n) => {
+            eprintln!(
+                "Error {} invalid value for flower",
+                args.value_of("flower").unwrap()
+            );
+            return ();
+        }
         Ok(n) => n,
-        Err(n) => panic!("{} invalid value for flower", n),
     };
     let hydration = match args.value_of("hydration").unwrap().parse::<i32>() {
+        Err(_n) => {
+            eprintln!(
+                "Error {} invalid value for hydration",
+                args.value_of("hydration").unwrap()
+            );
+            return ();
+        }
         Ok(n) => n,
-        Err(n) => panic!("{} invalid value for hydration", n),
     };
-    let starter = 20;
-    let salt = 2;
+    let starter = match args.value_of("starter").unwrap().parse::<i32>() {
+        Err(_n) => {
+            eprintln!(
+                "Error {} invalid value for starter",
+                args.value_of("starter").unwrap()
+            );
+            return ();
+        }
+        Ok(n) => n,
+    };
+    let salt = match args.value_of("salt").unwrap().parse::<i32>() {
+        Err(_n) => {
+            eprintln!(
+                "Error {} invalid value for salt",
+                args.value_of("salt").unwrap()
+            );
+            return ();
+        }
+        Ok(n) => n,
+    };
     let brine_water = 5;
 
     println!("Sourdough {} {}:{}:{}", flower, hydration, starter, salt);
