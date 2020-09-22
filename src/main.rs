@@ -1,5 +1,11 @@
 use clap::{App, Arg};
 
+const BREAD: char = '\u{1F35E}';
+const SALT: char = '\u{1F9C2}';
+const BOWL: char = '\u{1F963}';
+const WATER: char = '\u{1F4A7}';
+const FLOWER: char = '\u{1F33C}';
+
 fn main() {
     let args = App::new("Sourdough calculator")
         .version("1.0")
@@ -80,12 +86,19 @@ fn main() {
     };
     let brine_water = 5;
 
-    println!("Sourdough {} {}:{}:{}", flower, hydration, starter, salt);
-    println!("dough:");
-    println!(" {:4} gr flower", flower);
-    println!(" {:4} gr water", flower * (hydration - brine_water) / 100);
-    println!(" {:4} gr starter", flower * starter / 100);
-    println!("brine:");
-    println!(" {:4} gr water", flower * (brine_water) / 100);
-    println!(" {:4} gr salt", flower * salt / 100);
+    println!(
+        "{} Sourdough {} {}:{}:{}",
+        BREAD, flower, hydration, starter, salt
+    );
+    println!("Dough:");
+    println!(" {:4} gr{} flower", flower, FLOWER);
+    println!(
+        " {:4} gr{} water",
+        flower * (hydration - brine_water) / 100,
+        WATER,
+    );
+    println!(" {:4} gr{} starter", flower * starter / 100, BOWL);
+    println!("Brine:");
+    println!(" {:4} gr{} salt", flower * salt / 100, SALT);
+    println!(" {:4} gr{} water", flower * (brine_water) / 100, WATER);
 }
