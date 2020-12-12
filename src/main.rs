@@ -1,10 +1,5 @@
 use clap::{App, Arg};
-
-const BREAD: char = '\u{1F35E}';
-const SALT: char = '\u{1F9C2}';
-const BOWL: char = '\u{1F963}';
-const WATER: char = '\u{1F4A7}';
-const FLOWER: char = '\u{1F33C}';
+mod recipe;
 
 fn main() {
     let args = App::new("Sourdough calculator")
@@ -76,19 +71,8 @@ fn main() {
         .unwrap()
         .parse::<i32>()
         .expect("invalid value for brine_water");
-    println!(
-        "{} Sourdough {} - {}:{}:{}:{}",
-        BREAD, flower, hydration, starter, salt, brine_water
-    );
-    println!("Dough:");
-    println!(" {:4} gr{} flower", flower, FLOWER);
-    println!(
-        " {:4} gr{} water",
-        flower * (hydration - brine_water) / 100,
-        WATER,
-    );
-    println!(" {:4} gr{} starter", flower * starter / 100, BOWL);
-    println!("Brine:");
-    println!(" {:4} gr{} salt", flower * salt / 100, SALT);
-    println!(" {:4} gr{} water", flower * (brine_water) / 100, WATER);
+    print!(
+        "{}",
+        recipe::recipe(flower, hydration, starter, salt, brine_water)
+    )
 }
