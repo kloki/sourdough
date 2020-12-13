@@ -1,14 +1,21 @@
 mod recipe;
 use recipe::sourdough;
-use warp::Filter;
+use actix_web::{web, App, HttpRequest, HttpServer, Responder};
 
-#[tokio::main]
-async fn main() {
-    let sd1 = warp::path!( i32 ).map(|a| sourdough(a,70,20,2,5));
-    // let sd2 = warp::path!( i32 / i32).map(|a, b| sourdough(a,b,20,2,5));
-    // let sd0 = warp::path!("").map(|| sourdough(1000,70,20,2,5));
-    let routes =  warp::get().and(sd1);
-    warp::serve(routes)
-        .run(([127, 0, 0, 1], 3030))
-        .await;
+async fn recipe(req: HttpRequest) -> impl Responder {
+    let flower = req.match_info().get("name").unwrap_or("1000").parse::<i32>().expect("invalid value");
+    sourdough(flower,70,20,2,5)
 }
+
+#[actix_web::main]
+async fn main() -> std::io::Result<()> {
+    HttpServer::new(|| {
+        App::new()
+            .route("/{flower}", web::get().to(recipe))
+            .route("/", web::get().to(recipe))
+    })
+    .bind("127.0.0.1:8080")?
+    .run()
+    .await
+}
+
