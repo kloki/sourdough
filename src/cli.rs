@@ -1,5 +1,6 @@
 use clap::{App, Arg};
 mod recipe;
+use recipe::sourdough;
 
 fn main() {
     let args = App::new("Sourdough calculator")
@@ -73,6 +74,6 @@ fn main() {
         .expect("invalid value for brine_water");
     print!(
         "{}",
-        recipe::recipe(flower, hydration, starter, salt, brine_water)
+        sourdough(flower, hydration, starter, salt, brine_water)
     )
 }

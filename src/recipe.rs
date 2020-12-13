@@ -4,7 +4,7 @@ const BOWL: char = '\u{1F963}';
 const WATER: char = '\u{1F4A7}';
 const FLOWER: char = '\u{1F33C}';
 
-pub fn recipe(flower: i32, hydration: i32, starter: i32, salt: i32, brine_water: i32) -> String {
+pub fn sourdough(flower: i32, hydration: i32, starter: i32, salt: i32, brine_water: i32) -> String {
     let mut recipe = format!(
         "{} Sourdough {} - {}:{}:{}:{}\n",
         BREAD, flower, hydration, starter, salt, brine_water
