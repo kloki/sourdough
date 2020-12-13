@@ -1,6 +1,9 @@
+use actix_web::{web, App, HttpRequest, HttpServer, Responder};
+use actix_web::middleware::Logger;
+use figlet_rs::FIGfont;
+
 mod recipe;
 use recipe::sourdough;
-use actix_web::{web, App, HttpRequest, HttpServer, Responder};
 
 async fn recipe(req: HttpRequest) -> impl Responder {
     let flower = req.match_info().get("flower").unwrap_or("1000").parse::<i32>().unwrap_or(1000);
@@ -13,8 +16,19 @@ async fn recipe(req: HttpRequest) -> impl Responder {
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    let standard_font = FIGfont::standand().unwrap();
+    let figure = standard_font.convert("SourDough");
+    println!("{}", figure.unwrap());
+    std::env::set_var("RUST_LOG", "actix_web=info");
+    env_logger::init();
+    let url = "127.0.0.1";
+    let port = "8080";
+    println!("-----------> running on {}:{}", url, port);
+
     HttpServer::new(|| {
         App::new()
+            .wrap(Logger::default())
+            .wrap(Logger::new("%a %{User-Agent}i"))
             .route("/{flower}-{hydration}-{starter}-{salt}-{brine_water}", web::get().to(recipe))
             .route("/{flower}-{hydration}-{starter}-{salt}", web::get().to(recipe))
             .route("/{flower}-{hydration}-{starter}", web::get().to(recipe))
@@ -22,7 +36,7 @@ async fn main() -> std::io::Result<()> {
             .route("/{flower}", web::get().to(recipe))
             .route("/", web::get().to(recipe))
     })
-    .bind("127.0.0.1:8080")?
+    .bind(format!("{}:{}", url,port))?
     .run()
     .await
 }
