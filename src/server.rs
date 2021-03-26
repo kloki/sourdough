@@ -21,7 +21,7 @@ async fn main() -> std::io::Result<()> {
     println!("{}", figure.unwrap());
     std::env::set_var("RUST_LOG", "actix_web=info");
     env_logger::init();
-    let url = "127.0.0.1";
+    let url = "0.0.0.0";
     let port = "8080";
     println!("-----------> running on {}:{}", url, port);
 
